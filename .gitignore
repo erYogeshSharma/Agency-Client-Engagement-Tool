@@ -1,0 +1,28 @@
+# Global ignores
+node_modules/
+dist/
+.env
+*.env
+.DS_Store
+*.log
+
+# Python (FastAPI - api folder)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.env
+instance/
+*.sqlite3
+
+# Vite-React (ui folder)
+ui/node_modules/
+ui/dist/
+.ui/.vite/
+
+# OS-specific files
+Thumbs.db
+ehthumbs.db
+.idea/
+.vscode/
