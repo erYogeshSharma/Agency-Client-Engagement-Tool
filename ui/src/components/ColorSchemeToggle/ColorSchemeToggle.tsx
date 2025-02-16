@@ -1,12 +1,18 @@
 import { IconMoonStars, IconSun } from '@tabler/icons-react';
 import { ActionIcon, useMantineColorScheme } from '@mantine/core';
+import { useAppDispatch } from '@/app/hooks';
+import { authActions } from '@/features/auth/auth.slice';
 
 export function ColorSchemeToggle() {
+  const dispatch = useAppDispatch();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
   return (
     <ActionIcon
-      onClick={() => toggleColorScheme()}
+      onClick={() => {
+        toggleColorScheme();
+        dispatch(authActions.setColorScheme(colorScheme === 'dark' ? 'light' : 'dark'));
+      }}
       size="lg"
       variant="transparent"
       aria-label="Settings"

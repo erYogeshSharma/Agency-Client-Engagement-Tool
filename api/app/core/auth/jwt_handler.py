@@ -27,3 +27,4 @@ def decode_jwt(token: str) -> dict:
     decoded_token = jwt.decode(token.encode(), secret_key, algorithms=["HS256"])
     logger.info("Exit from decode_jwt method in jwt_handler")
     return decoded_token if decoded_token["expires"] >= time.time() else {}
+

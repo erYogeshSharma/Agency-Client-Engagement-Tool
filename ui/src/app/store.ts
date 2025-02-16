@@ -1,21 +1,30 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { combineReducers } from 'redux';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // Defaults to localStorage for web
-import authReducer from '../features/auth/auth.slice';
-import { api } from './services/auth.service';
 
-// Persist config
-const persistConfig = {
-  key: 'root',
+import { api } from '@/app/services/auth.service'; // ✅ Ensured correct import path
+import { projectAPI } from '@/app/services/project.service'; // ✅ Ensured correct import path
+import authReducer from '../features/auth/auth.slice';
+import projectReducer from '../features/auth/project.slice'; // ✅ Fixed incorrect path
+
+// Persist config for auth & project slices
+const persistAuthConfig = {
+  key: 'auth',
   storage,
-  whitelist: ['user', 'tokens'], // Only persist the auth slice
+  whitelist: ['user', 'tokens'], // ✅ Persist only necessary fields
+};
+
+const persistProjectConfig = {
+  key: 'project',
+  storage,
 };
 
 // Combine reducers
 const rootReducer = combineReducers({
+  auth: persistReducer(persistAuthConfig, authReducer),
+  project: persistReducer(persistProjectConfig, projectReducer),
   [api.reducerPath]: api.reducer,
-  auth: persistReducer(persistConfig, authReducer),
+  [projectAPI.reducerPath]: projectAPI.reducer,
 });
 
 // Configure store
@@ -23,8 +32,8 @@ export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Avoid issues with non-serializable data in Redux Persist
-    }).concat(api.middleware),
+      serializableCheck: false, // ✅ Prevent issues with non-serializable data
+    }).concat(api.middleware, projectAPI.middleware), // ✅ Fixed array syntax
 });
 
 // Persistor

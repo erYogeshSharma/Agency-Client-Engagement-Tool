@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate, Outlet, RouterProvider } from 'react-router-dom';
 import DashboardPage from '@/pages/dashboard/DashboardPage';
+import ProjectPage from '@/pages/project/ProjectPage';
 import AuthenticationPage from '@/pages/public/auth/Auth.page';
 import { HomePage } from '@/pages/public/home/Home.page';
 import Settings from '@/pages/settings/Settings';
@@ -47,6 +48,7 @@ export const router = createBrowserRouter([
     children: [
       { path: 'dashboard', element: <DashboardPage /> },
       { path: 'settings', element: <Settings /> },
+      { path: 'projects', element: <ProjectPage /> },
     ],
   },
 ]);

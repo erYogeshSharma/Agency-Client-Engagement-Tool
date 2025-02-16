@@ -1,8 +1,9 @@
 from re import A
 from fastapi import APIRouter, Body,status
+from pymongo import auth
 
 from app.core.auth.service import AuthService
-from .schema import ForgotPassword, Login,Register, ResetPassword
+from .schema import ForgotPassword, Login, RefreshToken,Register, ResetPassword
 
 
 router = APIRouter()
@@ -31,3 +32,7 @@ async def forgot_password(form: ForgotPassword = Body(...)):
 @router.post('/reset-password', status_code=status.HTTP_200_OK)
 async def reset_password(form: ResetPassword = Body(...)):
     return await auth_service.reset_password(form)
+
+@router.post('/refresh-token', status_code=status.HTTP_200_OK)
+async def refresh_token(form: RefreshToken = Body(...)):
+    return await auth_service.refresh_token(form)   

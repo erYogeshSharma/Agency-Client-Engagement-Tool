@@ -6,16 +6,25 @@ import { RootState } from '@/app/store';
 type AuthState = {
   user: User | null;
   tokens: Tokens | null;
+  colorScheme: 'light' | 'dark';
 };
 
 const slice = createSlice({
   name: 'auth',
-  initialState: { user: null, tokens: null } as AuthState,
+  initialState: { user: null, tokens: null, colorScheme: 'light' } as AuthState,
   reducers: {
     logout: (state) => {
-      window.location.href = '/';
       state.user = null;
       state.tokens = null;
+    },
+    setColorScheme: (state, action) => {
+      state.colorScheme = action.payload;
+    },
+
+    setAccessToken: (state, action) => {
+      if (state.tokens) {
+        state.tokens = action.payload;
+      }
     },
   },
   extraReducers: (builder) => {
